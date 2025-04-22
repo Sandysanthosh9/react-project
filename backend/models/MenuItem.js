@@ -1,20 +1,13 @@
-const db = require("../config/db");
+const mongoose = require("mongoose");
 
-exports.getAllItems = (req, res) => {
-  db.query("SELECT * FROM menu_items", (err, results) => {
-    if (err) throw err;
-    res.json(results);
-  });
-};
+const menuItemSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: { type: String, required: true },
+  category: { type: String, required: true },
+  image: { type: String, default: null },
+});
 
-exports.addItem = (req, res) => {
-  const { name, price, description, category } = req.body;
-  const image = req.file ? req.file.filename : null;
-  db.query("INSERT INTO menu_items (name, price, description, category, image) VALUES (?, ?, ?, ?, ?)",
-    [name, price, description, category, image],
-    (err, result) => {
-      if (err) throw err;
-      res.json({ success: true, id: result.insertId });
-    }
-  );
-};
+const MenuItem = mongoose.model("MenuItem", menuItemSchema);
+
+module.exports = MenuItem;
