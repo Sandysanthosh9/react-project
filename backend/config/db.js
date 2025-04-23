@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/digital_menu", {
+mongoose.connect("mongodb+srv://santhosh9726:<sandy9726>@digital-menu.km55hdy.mongodb.net/?retryWrites=true&w=majority&appName=digital-menu", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
