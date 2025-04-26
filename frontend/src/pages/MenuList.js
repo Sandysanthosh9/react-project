@@ -31,7 +31,7 @@ const MenuList = () => {
               <div className="card h-100 shadow-sm">
                 {item.image && (
                   <img
-                    src={`http://localhost:5000/uploads/${item.image}`}
+                    src={`https://my-backend.onrender.com/uploads/${item.image}`}
                     className="card-img-top"
                     alt={item.name}
                     style={{ height: "200px", objectFit: "cover" }}
