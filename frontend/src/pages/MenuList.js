@@ -6,7 +6,7 @@ const MenuList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/menu")
+    axios.get("https://my-backend.onrender.com/api/menu")
       .then(res => {
         setMenu(res.data);
         setLoading(false);
