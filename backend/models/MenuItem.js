@@ -1,13 +1,39 @@
-const mongoose = require("mongoose");
+const connectDB = require("../config/db");
 
-const menuItemSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  description: { type: String, required: true },
-  category: { type: String, required: true },
-  image: { type: String, default: null },
-});
+exports.getAllItems = async (req, res) => {
+  try {
+    const db = await connectDB();
+    const items = await db.collection("menu_items").find({}).toArray();
+    res.json(items);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch menu items" });
+  }
+};
 
-const MenuItem = mongoose.model("MenuItem", menuItemSchema);
+exports.addItem = async (req, res) => {
+  try {
+    console.log("Request Body:", req.body);
+    const db = await connectDB();
 
-module.exports = MenuItem;
+    const { name, price, description, category } = req.body;
+    const image = req.file ? req.file.filename : null;
+
+    const newItem = {
+      name,
+      price: parseFloat(price), // Ensure price is a number
+      description,
+      category,
+      image
+    };
+    
+    console.log("New Item:", newItem);
+
+    const result = await db.collection("menu_items").insertOne(newItem);
+
+    res.json({ success: true, id: result.insertedId });
+  } catch (err) {
+    console.error("Error adding item:", err);
+    res.status(500).json({ error: "Failed to add menu item" });
+  }
+};
